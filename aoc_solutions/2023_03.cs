@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 
 class AoC2023_03 : AoCSolution
 {
-
     readonly (int, int)[] firstDigitRelPositions = [
         (-1,-1),
         (0,-1),

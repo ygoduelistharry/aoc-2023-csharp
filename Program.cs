@@ -3,12 +3,11 @@ using System.Diagnostics;
 
 class Program()
 {
-
     static int year;
     static int day;
     static int part;
     static readonly string[] validActions = ["solve", "submit"];
-    static string inputsFolder = Directory.GetCurrentDirectory() + "\\inputs";
+    static readonly string inputsFolder = Directory.GetCurrentDirectory() + "\\inputs";
     static string leadingZero = "";
     static string fileName = "";
     static string filePath = "";
@@ -24,9 +23,9 @@ class Program()
             return;
         }
 
-        string yearString = args[0];
-        string dayString = args[1];
-        string actionString = args[2];
+        string actionString = args[0];
+        string yearString = args[1];
+        string dayString = args[2];
         string partString = args[3];
 
 
@@ -171,7 +170,6 @@ class Program()
 
 class AoCSolution
 {
-
     public virtual string? SolvePart1(string[] input)
     {
         Console.WriteLine("Solution not implemented for part 1 yet!");

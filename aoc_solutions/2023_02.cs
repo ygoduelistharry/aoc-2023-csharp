@@ -1,6 +1,5 @@
 class AoC2023_02 : AoCSolution
 {
-
     readonly Dictionary<string, int> cubes = new()
     {
         ["r"] = 12,
