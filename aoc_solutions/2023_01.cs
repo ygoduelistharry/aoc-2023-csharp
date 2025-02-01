@@ -2,8 +2,7 @@
 
 class AoC2023_01 : AoCSolution
 {
-
-    Dictionary<string, string> digits = new()
+    readonly Dictionary<string, string> digits = new()
     {
         ["one"] = "1",
         ["two"] = "2",

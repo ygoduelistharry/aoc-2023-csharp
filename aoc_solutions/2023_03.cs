@@ -2,23 +2,23 @@ using System.Text.RegularExpressions;
 
 class AoC2023_03 : AoCSolution
 {
-    readonly (int, int)[] firstDigitRelPositions = [
+    static readonly (int, int)[] firstDigitRelPositions = [
         (-1,-1),
         (0,-1),
         (1,-1),
     ];
-    readonly (int, int)[] allDigitRelPositions = [
+    static readonly (int, int)[] allDigitRelPositions = [
         (-1,0),
         (1,0),
     ];
-    readonly (int, int)[] lastDigitRelPositions = [
+    static readonly (int, int)[] lastDigitRelPositions = [
         (-1,1),
         (0,1),
         (1,1),
     ];
 
-    List<int> validParts = [];
-    Dictionary<(int, int), List<int>> gearPairs = [];
+    readonly List<int> validParts = [];
+    readonly Dictionary<(int, int), List<int>> gearPairs = [];
 
     static (bool, string) PositionHasSymbol(string[] input, int row_num, int col_num)
     {
