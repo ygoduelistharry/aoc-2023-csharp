@@ -47,9 +47,9 @@ class AoC2023_07 : AoCSolution
         {'J', 1},
     };
 
-    static (string, int)[] hands = [];
+    (string, int)[] hands = [];
 
-    static void ProcessInputs(string[] input)
+    void ProcessInputs(string[] input)
     {
         var handCards = input.Select(x => x[..5]);
         var handBids = input.Select(x => int.Parse(x[6..]));

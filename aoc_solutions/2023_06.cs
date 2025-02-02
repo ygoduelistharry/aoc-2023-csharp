@@ -2,7 +2,6 @@ using System.ComponentModel;
 
 class AoC2023_06 : AoCSolution
 {
-
     long[] raceDurations = [];
     long[] records = [];
 

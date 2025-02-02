@@ -2,11 +2,11 @@ using System.Data;
 
 class AoC2023_05 : AoCSolution
 {
-    static long[] seeds = [];
-    static readonly Dictionary<long, (long, long)>[] mapList = [[], [], [], [], [], [], []];
-    static readonly long[][] sortedMapSourceLBs = [[], [], [], [], [], [], []];
+    long[] seeds = [];
+    readonly Dictionary<long, (long, long)>[] mapList = [[], [], [], [], [], [], []];
+    readonly long[][] sortedMapSourceLBs = [[], [], [], [], [], [], []];
 
-    static void ProcessInputs(string[] input, bool reversed = false)
+    void ProcessInputs(string[] input, bool reversed = false)
     {
         int currentMap = 0;
         int mapCount = mapList.Length;
@@ -37,7 +37,7 @@ class AoC2023_05 : AoCSolution
         return;
     }
 
-    static (long, long) FollowMaps(long seed)
+    (long, long) FollowMaps(long seed)
     {
         var currSourceVal = seed;
         List<long> gapsToNextRangeStart = [];
