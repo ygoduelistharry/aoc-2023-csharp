@@ -1,5 +1,3 @@
-using System.Data;
-
 class AoC2023_05 : AoCSolution
 {
     long[] seeds = [];
