@@ -1,7 +1,7 @@
 class AoC2023_08 : AoCSolution
 {
     readonly Dictionary<string, (string, string)> nodes = [];
-    string instructions = "";
+    string instructions = string.Empty;
 
     void ProcessInputs(string[] input)
     {

@@ -67,7 +67,7 @@ class AoC2023_10 : AoCSolution
 
         // Create dictionary of positions of pipes on the loop and what they are.
         Dictionary<(int, int), char> loopPositions = [];
-        // Need to figure out concretely what the S would be.
+        // Need to figure out concretely what pipe the S would be.
         char sPipeType = 'S';
         if (prevMoves.Contains('D') && prevMoves.Contains('U')) {sPipeType = '|';}
         if (prevMoves.Contains('D') && prevMoves.Contains('L')) {sPipeType = '7';}
