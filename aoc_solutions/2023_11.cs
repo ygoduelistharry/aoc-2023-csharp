@@ -2,7 +2,7 @@ class AoC2023_11 : AoCSolution
 {
     int[] emptyRows = [];
     int[] emptyCols = [];
-    SortedSet<(int, int)> positions = [];
+    readonly HashSet<(int, int)> positions = [];
 
     void ProcessInputs(string[] input)
     {
@@ -39,12 +39,13 @@ class AoC2023_11 : AoCSolution
     long SumMinDistances(int expFactor)
     {
         long totalDistance = 0;
+        var uncheckedPositions = new HashSet<(int, int)>(positions);
         int posCount = positions.Count;
         for (int i = 0; i < posCount; i++)
         {
-            (int, int) pos1 = positions.First();
-            positions.Remove(pos1);
-            foreach ((int, int) pos2 in positions)
+            (int, int) pos1 = uncheckedPositions.First();
+            uncheckedPositions.Remove(pos1);
+            foreach ((int, int) pos2 in uncheckedPositions)
             {
                 totalDistance += Distance(pos1, pos2, expFactor);
             }
