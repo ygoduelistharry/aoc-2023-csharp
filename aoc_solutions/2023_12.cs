@@ -4,7 +4,6 @@ class AoC2023_12 : AoCSolution
     // also has a few useful methods to execute steps in the search algorithm
     class SequenceData
     {
-        public SequenceData() {}
         public List<(int groupsLeft, int spaceLeft)> states = [];
         public SequenceData AddDot()
         {
@@ -55,6 +54,20 @@ class AoC2023_12 : AoCSolution
     static long CountArrangements(string springMap, int[] springGroups)
     {
         //we are going to do depth first search with caching
+        //set up the cache and define a function to map state to cache index
+        long[] cache = new long[(springMap.Length + 1) * (springGroups.Length + 1)];
+
+        int GetCacheIndex((int groupsLeft, int spaceLeft) state)
+        {
+            return (springGroups.Length + 1) * state.spaceLeft + state.groupsLeft;
+        }
+        //-1 means an unvisited state
+        Array.Fill(cache, -1);
+
+        //last element in cache repesents state where we have not placed any springs and not used any space
+        //i.e. this will be the answer
+        cache[^1] = 0;
+
         //prime the stack
         Stack<SequenceData> sequenceStack = [];
         SequenceData emptySequence = new()
@@ -70,27 +83,16 @@ class AoC2023_12 : AoCSolution
             sequenceStack.Push(emptySequence.AddGroup(springGroups[0] + 1));
         }
 
-        //set up the cache and define a look up function
-        long[] cache = new long[(springMap.Length + 1) * (springGroups.Length + 1)];
-        //-1 means an unvisited state
-        Array.Fill(cache, -1);
-
-        int GetCacheIndex(int groupsLeft, int spaceLeft)
-        {
-            return (springGroups.Length + 1) * spaceLeft + groupsLeft;
-        }
-        cache[GetCacheIndex(springGroups.Length, springMap.Length)] = 0;
-
         //do the depth first search
         while (sequenceStack.Count > 0)
         {
             //pop the latest sequence
             SequenceData currSequence = sequenceStack.Pop();
             //get the latest state
-            (int currGroupsLeft, int currSpaceLeft) = currSequence.states[^1];
+            (int groupsLeft, int spaceLeft) currState = currSequence.states[^1];
 
             //check the cache for count of valid sequences from this state
-            int cacheIdx = GetCacheIndex(currGroupsLeft, currSpaceLeft);
+            int cacheIdx = GetCacheIndex(currState);
             long cacheValue = cache[cacheIdx];
 
             //last time we were in this state nothing was valid so continue
@@ -101,8 +103,8 @@ class AoC2023_12 : AoCSolution
                 //so we add this number to every other state visited so far
                 for (int i = 0; i < currSequence.states.Count - 1; i++)
                 {
-                    var (groupsLeft, spaceLeft) = currSequence.states[i];
-                    cache[GetCacheIndex(groupsLeft, spaceLeft)] += cacheValue;
+                    var state = currSequence.states[i];
+                    cache[GetCacheIndex(state)] += cacheValue;
                 }
                 continue;
             }
@@ -110,42 +112,41 @@ class AoC2023_12 : AoCSolution
             //set cache to zero to signify state has been visited
             cache[cacheIdx] = 0;
             //if we placed all the springs and there is no space left to place more
-            if ((currGroupsLeft, currSpaceLeft) == (0, 0))
+            if (currState == (0, 0))
             {
                 //we found a valid sequence!
                 //so we add 1 to all states visited in this sequence
                 for (int i = 0; i < currSequence.states.Count; i++)
                 {
                     var (groupsLeft, spaceLeft) = currSequence.states[i];
-                    cache[GetCacheIndex(groupsLeft, spaceLeft)] += 1;
+                    cache[GetCacheIndex((groupsLeft, spaceLeft))] += 1;
                 }
                 continue;
             }
             
             //check if adding '.' is possible
-            if (currSpaceLeft == 0) {continue;}
-            int nextMapIdx = springMap.Length - currSpaceLeft;
+            if (currState.spaceLeft == 0) {continue;}
+            int nextMapIdx = springMap.Length - currState.spaceLeft;
             if (springMap[nextMapIdx] != '#') {sequenceStack.Push(currSequence.AddDot());}
 
             //check if adding next group of '#' is possible
-            if (currGroupsLeft == 0) {continue;}
-            int nextGroupSize = springGroups[^currGroupsLeft];
+            if (currState.groupsLeft == 0) {continue;}
+            int nextGroupSize = springGroups[^currState.groupsLeft];
             //need to treat the last spring group differently as it doesn't need a '.' after it
-            if (currGroupsLeft == 1)
+            if (currState.groupsLeft == 1)
             {
-                if (nextGroupSize > currSpaceLeft) {continue;}
+                if (nextGroupSize > currState.spaceLeft) {continue;}
                 if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) {continue;}
                 sequenceStack.Push(currSequence.AddGroup(nextGroupSize));
             }
-            if (currGroupsLeft > 1)
+            if (currState.groupsLeft > 1)
             {
-                if (nextGroupSize + 1 > currSpaceLeft) {continue;}
+                if (nextGroupSize + 1 > currState.spaceLeft) {continue;}
                 if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) {continue;}
                 if (springMap[nextMapIdx + nextGroupSize] == '#') {continue;}
                 sequenceStack.Push(currSequence.AddGroup(nextGroupSize + 1));
             }
         }
-        //last value in the cache array is where all the groups and spaces are left, aka the answer
         return cache[^1];
     }
 
@@ -155,9 +156,9 @@ class AoC2023_12 : AoCSolution
         foreach ((int index, string record) in input.Index())
         {
             string[] splitRecord = record.Split([',',' ']).ToArray();
-            string fullSeq = splitRecord[0];
-            int[] nums = splitRecord[1..].Select(int.Parse).ToArray();
-            ans += CountArrangements(fullSeq, nums);
+            string springMap = splitRecord[0];
+            int[] springGroups = splitRecord[1..].Select(int.Parse).ToArray();
+            ans += CountArrangements(springMap, springGroups);
         }
         return ans.ToString();
     }
@@ -168,17 +169,17 @@ class AoC2023_12 : AoCSolution
         foreach ((int recordIdx, string record) in input.Index())
         {
             string[] splitRecord = record.Split([',',' ']).ToArray();
-            string fullSeq = splitRecord[0];
-            int[] nums = splitRecord[1..].Select(int.Parse).ToArray();
+            string springMap = splitRecord[0];
+            int[] springGroups = splitRecord[1..].Select(int.Parse).ToArray();
 
-            string fullSeqUnfold = fullSeq;
-            int[] numsUnfold = nums;
+            string unfoldedSpringMap = springMap;
+            int[] unfoldedSpringGroups = springGroups;
             for (int i = 0; i < 4; i++)
             {
-                fullSeqUnfold += '?' + fullSeq;
-                numsUnfold = numsUnfold.Concat(nums).ToArray();
+                unfoldedSpringMap += '?' + springMap;
+                unfoldedSpringGroups = unfoldedSpringGroups.Concat(springGroups).ToArray();
             }
-            ans += CountArrangements(fullSeqUnfold, numsUnfold);
+            ans += CountArrangements(unfoldedSpringMap, unfoldedSpringGroups);
         }
         return ans.ToString();
     }
