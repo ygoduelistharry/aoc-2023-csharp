@@ -121,7 +121,7 @@ class AoC2023_13 : AoCSolution
             return 0;
         }
         
-        public int Solve(bool smudged)
+        public int SolvePattern(bool smudged)
         {
             Func<bool, int> axisSolver;
             //chooses the right solver based on part 1 or 2
@@ -135,47 +135,38 @@ class AoC2023_13 : AoCSolution
         }
     }
 
+    public string SolveAllPatterns(string[] input, bool smudged)
+    {
+        int ans = 0;
+        int startIdx = 0;
+        int endIdx = 0;
+        bool canSolvePattern = false;
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (input[i] == "") {endIdx = i; canSolvePattern = true;}
+            if (i == input.Length - 1) {endIdx = i+1; canSolvePattern = true;}
+
+            if (!canSolvePattern) {continue;}
+            
+            ans += Pattern.FromStringList(input[startIdx..endIdx]).SolvePattern(smudged);
+            startIdx = i+1;
+            canSolvePattern = false;
+        }
+        return ans.ToString();
+    }
 
     public override string SolvePart1(string[] input)
     {
-        int ans = 0;
-        List<string> stringList = [];
-        for (int i = 0; i < input.Length; i++)
-        {   
-            if (input[i] == "" || i == input.Length - 1)
-            {
-                if (i == input.Length - 1) {stringList.Add(input[i]);}
-                Pattern pattern = Pattern.FromStringList(stringList);
-                ans += pattern.Solve(smudged: false);
-                stringList = [];
-                continue;
-            }
-            stringList.Add(input[i]);
-        }
-        return ans.ToString();
+        return SolveAllPatterns(input, smudged: false);
     }
 
     public override string SolvePart2(string[] input)
     {
-        int ans = 0;
-        List<string> stringList = [];
-        for (int i = 0; i < input.Length; i++)
-        {
-            if (input[i] == "" || i == input.Length - 1)
-            {
-                if (i == input.Length - 1) {stringList.Add(input[i]);}
-                Pattern pattern = Pattern.FromStringList(stringList);
-                ans += pattern.Solve(smudged: true);
-                stringList = [];
-                continue;
-            }
-            stringList.Add(input[i]);
-        }
-        return ans.ToString();
+        return SolveAllPatterns(input, smudged: true);
     }
 
     //function to display pattern with reflection line for debugging
-    void PrintPatternWithReflectionLine(List<string> stringList, bool row, int pos)
+    static void PrintPatternWithReflectionLine(List<string> stringList, bool row, int pos)
     {
         if (row)
         {
