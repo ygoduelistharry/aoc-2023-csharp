@@ -9,7 +9,7 @@ class AoC2023_11 : AoCSolution
         emptyRows = Enumerable.Repeat(1, input.Length).ToArray();
         emptyCols = Enumerable.Repeat(1, input[0].Length).ToArray();
         positions.Clear();
-        
+
         for (int i = 0; i < input.Length; i++)
         {
 
@@ -18,7 +18,7 @@ class AoC2023_11 : AoCSolution
                 char symbol = input[i][j];
                 if (symbol == '#')
                 {
-                    positions.Add((i,j));
+                    positions.Add((i, j));
                     emptyRows[i] = 0;
                     emptyCols[j] = 0;
                 }

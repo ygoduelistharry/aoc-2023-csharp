@@ -10,14 +10,14 @@ class AoC2023_10 : AoCSolution
 
     readonly Dictionary<char, int[]> relVecs = new()
     {
-        ['R'] = [ 0,  1],
-        ['L'] = [ 0, -1],
-        ['D'] = [ 1,  0],
-        ['U'] = [-1,  0],
+        ['R'] = [0, 1],
+        ['L'] = [0, -1],
+        ['D'] = [1, 0],
+        ['U'] = [-1, 0],
     };
 
 
-    Dictionary<(int,int), char> ProcessInputs(string[] input)
+    Dictionary<(int, int), char> ProcessInputs(string[] input)
     {
         // Find the position of the S
         int[][] currPositions = [];
@@ -69,12 +69,12 @@ class AoC2023_10 : AoCSolution
         Dictionary<(int, int), char> loopPositions = [];
         // Need to figure out concretely what pipe the S would be.
         char sPipeType = 'S';
-        if (prevMoves.Contains('D') && prevMoves.Contains('U')) {sPipeType = '|';}
-        if (prevMoves.Contains('D') && prevMoves.Contains('L')) {sPipeType = '7';}
-        if (prevMoves.Contains('D') && prevMoves.Contains('R')) {sPipeType = 'F';}
-        if (prevMoves.Contains('U') && prevMoves.Contains('L')) {sPipeType = 'J';}
-        if (prevMoves.Contains('U') && prevMoves.Contains('R')) {sPipeType = 'L';}
-        if (prevMoves.Contains('L') && prevMoves.Contains('R')) {sPipeType = '-';}
+        if (prevMoves.Contains('D') && prevMoves.Contains('U')) { sPipeType = '|'; }
+        if (prevMoves.Contains('D') && prevMoves.Contains('L')) { sPipeType = '7'; }
+        if (prevMoves.Contains('D') && prevMoves.Contains('R')) { sPipeType = 'F'; }
+        if (prevMoves.Contains('U') && prevMoves.Contains('L')) { sPipeType = 'J'; }
+        if (prevMoves.Contains('U') && prevMoves.Contains('R')) { sPipeType = 'L'; }
+        if (prevMoves.Contains('L') && prevMoves.Contains('R')) { sPipeType = '-'; }
         loopPositions.Add((startPos[0], startPos[1]), sPipeType);
         // Also add the loop positons after the first moves.
         var currRow0 = currPositions[0][0];
@@ -141,7 +141,7 @@ class AoC2023_10 : AoCSolution
             for (int col = 0; col < input[row].Length; col++)
             {
                 if (loop.ContainsKey((row, col)))
-                {   
+                {
                     if ("J|L".Contains(input[row][col]))
                     {
                         inner = !inner;

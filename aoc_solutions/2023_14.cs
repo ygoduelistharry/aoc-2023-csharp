@@ -16,7 +16,7 @@ class AoC2023_14 : AoCSolution
                         {
                             break;
                         }
-                    case 'O': 
+                    case 'O':
                         {
                             ans += rockVals[col]--;
                             break;
@@ -59,7 +59,7 @@ class AoC2023_14 : AoCSolution
                             {
                                 break;
                             }
-                        case 'O': 
+                        case 'O':
                             {
                                 dish.rockBitmap[r] += (UInt128)1 << c;
                                 break;
@@ -178,7 +178,7 @@ class AoC2023_14 : AoCSolution
                     }
                 }
             }
-            return load;    
+            return load;
         }
 
         public string[] ToStringList()
@@ -199,7 +199,7 @@ class AoC2023_14 : AoCSolution
                         continue;
                     }
                     strings[i] += '.';
-                }                
+                }
             }
             return strings;
         }

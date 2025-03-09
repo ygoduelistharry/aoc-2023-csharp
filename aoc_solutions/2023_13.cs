@@ -22,7 +22,7 @@ class AoC2023_13 : AoCSolution
                     }
                 }
             }
-            return new() {rows = r, cols = c};
+            return new() { rows = r, cols = c };
         }
 
         //solves part 1 along a given axis (rows or columns)
@@ -30,17 +30,17 @@ class AoC2023_13 : AoCSolution
         {
             int[] nums;
             int factor = 100;
-            if (row) {nums = rows;}
-            else {nums = cols; factor = 1;}
-            
+            if (row) { nums = rows; }
+            else { nums = cols; factor = 1; }
+
             for (int i = 1; i < nums.Length; i++)
             {
                 //checks for 2 matching consecutive rows/cols
                 //this marks a potential reflection line
-                if (nums[i-1] != nums[i]) {continue;}
-                
-                int leftIdx = i-2;
-                int rightIdx = i+1;
+                if (nums[i - 1] != nums[i]) { continue; }
+
+                int leftIdx = i - 2;
+                int rightIdx = i + 1;
                 bool trueReflection = true;
                 //iterate over each outer pair of rows/cols until they dont match
                 //or we reach the edge of the pattern in either direction
@@ -68,8 +68,8 @@ class AoC2023_13 : AoCSolution
         {
             int[] nums;
             int factor = 100;
-            if (row) {nums = rows;}
-            else {nums = cols; factor = 1;}
+            if (row) { nums = rows; }
+            else { nums = cols; factor = 1; }
 
             //basically the same as 1
             for (int i = 1; i < nums.Length; i++)
@@ -86,13 +86,13 @@ class AoC2023_13 : AoCSolution
                 if (bitDiff != 0)
                 {
                     //we can also accept a 1 element difference
-                    if (!bitDiffPowerOf2) {continue;}
+                    if (!bitDiffPowerOf2) { continue; }
                     //but it uses up our smudge
                     smudgeUsed = true;
                 }
 
-                int leftIdx = i-2;
-                int rightIdx = i+1;
+                int leftIdx = i - 2;
+                int rightIdx = i + 1;
                 bool trueReflection = true;
                 while (leftIdx >= 0 && rightIdx < nums.Length)
                 {
@@ -104,9 +104,9 @@ class AoC2023_13 : AoCSolution
                     {
                         //if we used our smudge in the outer loop or a prior iteration...
                         //then any difference is unacceptable
-                        if (smudgeUsed || !outerBitDiffPowerOf2) {trueReflection = false; break;}
+                        if (smudgeUsed || !outerBitDiffPowerOf2) { trueReflection = false; break; }
                         //if we havent used our smudge yet, we can accept it but only once
-                        if (!smudgeUsed && outerBitDiffPowerOf2) {smudgeUsed = true;}
+                        if (!smudgeUsed && outerBitDiffPowerOf2) { smudgeUsed = true; }
                     }
                     leftIdx--;
                     rightIdx++;
@@ -120,17 +120,17 @@ class AoC2023_13 : AoCSolution
             }
             return 0;
         }
-        
+
         public int SolvePattern(bool smudged)
         {
             Func<bool, int> axisSolver;
             //chooses the right solver based on part 1 or 2
-            if (smudged) {axisSolver = SolveAxisSmudged;}
-            else {axisSolver = SolveAxis;}
+            if (smudged) { axisSolver = SolveAxisSmudged; }
+            else { axisSolver = SolveAxis; }
 
             //checks rows first and then columns if necessary (order is arbitrary)
             int rowResult = axisSolver(true);
-            if (rowResult != 0) {return rowResult;}
+            if (rowResult != 0) { return rowResult; }
             return axisSolver(false);
         }
     }
@@ -143,13 +143,13 @@ class AoC2023_13 : AoCSolution
         bool canSolvePattern = false;
         for (int i = 0; i < input.Length; i++)
         {
-            if (input[i] == "") {endIdx = i; canSolvePattern = true;}
-            if (i == input.Length - 1) {endIdx = i+1; canSolvePattern = true;}
+            if (input[i] == "") { endIdx = i; canSolvePattern = true; }
+            if (i == input.Length - 1) { endIdx = i + 1; canSolvePattern = true; }
 
-            if (!canSolvePattern) {continue;}
-            
+            if (!canSolvePattern) { continue; }
+
             ans += Pattern.FromStringList(input[startIdx..endIdx]).SolvePattern(smudged);
-            startIdx = i+1;
+            startIdx = i + 1;
             canSolvePattern = false;
         }
         return ans.ToString();
@@ -182,7 +182,7 @@ class AoC2023_13 : AoCSolution
                 string rowWithSplit = preSplit + "|" + postSplit;
                 Console.WriteLine(rowWithSplit);
             }
-            else {Console.WriteLine(stringList[i]);}
+            else { Console.WriteLine(stringList[i]); }
         }
     }
-} 
+}

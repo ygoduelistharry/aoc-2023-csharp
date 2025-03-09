@@ -27,7 +27,7 @@ class AoC2023_15 : AoCSolution
     {
         int ans = 0;
         List<OrderedDictionary<string, int>> boxes = [];
-        for (int i = 0; i < 256; i++) {boxes.Add([]);}
+        for (int i = 0; i < 256; i++) { boxes.Add([]); }
         int boxIdx = 0;
         string label = "";
         foreach (byte c in Encoding.ASCII.GetBytes(input[0]))
@@ -63,16 +63,14 @@ class AoC2023_15 : AoCSolution
             {
                 continue;
             }
-            boxIdx += c;
-            boxIdx *= 17;
-            boxIdx %= 256;
+            boxIdx = (boxIdx + c) * 17 % 256;
             label += Encoding.ASCII.GetChars([c])[0];
         }
         for (int i = 0; i < boxes.Count; i++)
         {
             for (int j = 0; j < boxes[i].Count; j++)
             {
-                ans += (i + 1)*(j + 1)*boxes[i].GetAt(j).Value;
+                ans += (i + 1) * (j + 1) * boxes[i].GetAt(j).Value;
             }
         }
         return ans.ToString();

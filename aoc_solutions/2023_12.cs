@@ -31,7 +31,7 @@ class AoC2023_12 : AoCSolution
             string seq = "";
             for (int i = 1; i < states.Count; i++)
             {
-                var (lastGroupsLeft, lastSpaceLeft) = states[i-1];
+                var (lastGroupsLeft, lastSpaceLeft) = states[i - 1];
                 var (currGroupsLeft, currSpaceLeft) = states[i];
                 if (lastGroupsLeft == currGroupsLeft)
                 {
@@ -96,7 +96,7 @@ class AoC2023_12 : AoCSolution
             long cacheValue = cache[cacheIdx];
 
             //last time we were in this state nothing was valid so continue
-            if (cacheValue == 0) {continue;}
+            if (cacheValue == 0) { continue; }
             //last time we were in this state we found valid sequences
             if (cacheValue > 0)
             {
@@ -123,27 +123,27 @@ class AoC2023_12 : AoCSolution
                 }
                 continue;
             }
-            
+
             //check if adding '.' is possible
-            if (currState.spaceLeft == 0) {continue;}
+            if (currState.spaceLeft == 0) { continue; }
             int nextMapIdx = springMap.Length - currState.spaceLeft;
-            if (springMap[nextMapIdx] != '#') {sequenceStack.Push(currSequence.AddDot());}
+            if (springMap[nextMapIdx] != '#') { sequenceStack.Push(currSequence.AddDot()); }
 
             //check if adding next group of '#' is possible
-            if (currState.groupsLeft == 0) {continue;}
+            if (currState.groupsLeft == 0) { continue; }
             int nextGroupSize = springGroups[^currState.groupsLeft];
             //need to treat the last spring group differently as it doesn't need a '.' after it
             if (currState.groupsLeft == 1)
             {
-                if (nextGroupSize > currState.spaceLeft) {continue;}
-                if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) {continue;}
+                if (nextGroupSize > currState.spaceLeft) { continue; }
+                if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) { continue; }
                 sequenceStack.Push(currSequence.AddGroup(nextGroupSize));
             }
             if (currState.groupsLeft > 1)
             {
-                if (nextGroupSize + 1 > currState.spaceLeft) {continue;}
-                if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) {continue;}
-                if (springMap[nextMapIdx + nextGroupSize] == '#') {continue;}
+                if (nextGroupSize + 1 > currState.spaceLeft) { continue; }
+                if (springMap[nextMapIdx..(nextMapIdx + nextGroupSize)].Contains('.')) { continue; }
+                if (springMap[nextMapIdx + nextGroupSize] == '#') { continue; }
                 sequenceStack.Push(currSequence.AddGroup(nextGroupSize + 1));
             }
         }
@@ -155,7 +155,7 @@ class AoC2023_12 : AoCSolution
         long ans = 0;
         foreach ((int index, string record) in input.Index())
         {
-            string[] splitRecord = record.Split([',',' ']).ToArray();
+            string[] splitRecord = record.Split([',', ' ']).ToArray();
             string springMap = splitRecord[0];
             int[] springGroups = splitRecord[1..].Select(int.Parse).ToArray();
             ans += CountArrangements(springMap, springGroups);
@@ -165,10 +165,10 @@ class AoC2023_12 : AoCSolution
 
     public override string SolvePart2(string[] input)
     {
-        long ans = 0;        
+        long ans = 0;
         foreach ((int recordIdx, string record) in input.Index())
         {
-            string[] splitRecord = record.Split([',',' ']).ToArray();
+            string[] splitRecord = record.Split([',', ' ']).ToArray();
             string springMap = splitRecord[0];
             int[] springGroups = splitRecord[1..].Select(int.Parse).ToArray();
 
