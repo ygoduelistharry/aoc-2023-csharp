@@ -16,28 +16,29 @@ class AoC2023_17 : AoCSolution
         State initialState = new(0, 0, 4, (ushort)minRep);
         HashSet<State> visitedStates = [];
         priorityQueue.Enqueue(initialState, 0);
-        
+
         while (priorityQueue.Count > 0)
         {
             priorityQueue.TryDequeue(out State currState, out int distance);
-            
+
+            // check if we've seen this state before
+            if (visitedStates.Contains(currState)) { continue; }
+
+            // check if we've found the goal
             if (currState.Row == rowCount - 1 && currState.Col == colCount - 1)
             {
                 return distance;
             }
 
-            if (visitedStates.Contains(currState)) { continue; }
             visitedStates.Add(currState);
 
             foreach (ushort dir in dirs)
             {
-                if (currState.Rep > 0)
-                {
-                    if (dir == UP && currState.Dir == DOWN) { continue; }
-                    if (dir == DOWN && currState.Dir == UP) { continue; }
-                    if (dir == LEFT && currState.Dir == RIGHT) { continue; }
-                    if (dir == RIGHT && currState.Dir == LEFT) { continue; }
-                }
+                // cant go backwards
+                if (dir == UP && currState.Dir == DOWN) { continue; }
+                if (dir == DOWN && currState.Dir == UP) { continue; }
+                if (dir == LEFT && currState.Dir == RIGHT) { continue; }
+                if (dir == RIGHT && currState.Dir == LEFT) { continue; }
 
                 int nextRow = currState.Row;
                 int nextCol = currState.Col;
@@ -51,16 +52,17 @@ class AoC2023_17 : AoCSolution
                     case RIGHT: { nextCol += 1; break; }
                 }
 
+                // check for bounds of grid
                 if (nextCol < 0 || nextCol >= colCount) { continue; }
                 if (nextRow < 0 || nextRow >= rowCount) { continue; }
 
-
+                // check for min/max required repeated movements in a single direction
                 if (dir == currState.Dir && currState.Rep >= maxRep) { continue; }
                 if (dir != currState.Dir && currState.Rep < minRep) { continue; }
 
                 if (dir != currState.Dir) { nextRep = 1; }
                 else { nextRep += 1; }
-                
+
                 State nextState = new((ushort)nextRow, (ushort)nextCol, dir, (ushort)nextRep);
                 int nextDist = distance + (ushort)char.GetNumericValue(input[nextRow][nextCol]);
                 priorityQueue.Enqueue(nextState, nextDist);
