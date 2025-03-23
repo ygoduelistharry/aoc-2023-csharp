@@ -15,10 +15,7 @@ class AoC2023_08 : AoCSolution
 
     static long GCD(long a, long b)
     {
-        if (b > a)
-        {
-            (a, b) = (b, a);
-        }
+        if (b > a) { (a, b) = (b, a); }
 
         var (_, rem) = Math.DivRem(a, b);
         while (rem != 0)
@@ -30,15 +27,9 @@ class AoC2023_08 : AoCSolution
         return b;
     }
 
-    static long LCM(long a, long b)
-    {
-        return a * b / GCD(a, b);
-    }
+    static long LCM(long a, long b) { return a * b / GCD(a, b); }
 
-    static long LCM(ICollection<long> numbers)
-    {
-        return numbers.Aggregate(LCM);
-    }
+    static long LCM(ICollection<long> numbers) { return numbers.Aggregate(LCM); }
 
     public override string SolvePart1(string[] input)
     {
