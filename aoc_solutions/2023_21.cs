@@ -47,7 +47,7 @@ class AoC2023_21 : AoCSolution
             foreach (var (nextR, nextC) in nextPoints)
             {
                 if (nextR < 0 || nextC < 0 || nextR >= rowCount || nextC >= colCount)
-                { 
+                {
                     continue;
                 }
                 if (input[nextR][nextC] != '#')
@@ -122,7 +122,7 @@ class AoC2023_21 : AoCSolution
         // we need to calculate these 4 parameters.
         // turns out we always need a full set of 4 corners to add or subtract
         // so theres no point calculating each corner separately
-        
+
         long oddFullGrid = 0;
         long evenFullGrid = 0;
         long oddCorners = 0;
