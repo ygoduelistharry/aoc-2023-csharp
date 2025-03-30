@@ -65,7 +65,7 @@ class AoC2023_18 : AoCSolution
             long currRow = rList[r];
             area += currWidth * (currRow - prevRow);
 
-            foreach (int c in nodePositions[currRow])
+            foreach (int c in nodePositions[currRow].Select(v => (int)v))
             {
                 if (!colBounds.Remove(c)) { colBounds.Add(c); }
             }

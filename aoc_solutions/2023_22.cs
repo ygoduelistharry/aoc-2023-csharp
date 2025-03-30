@@ -37,6 +37,7 @@ class AoC2023_22 : AoCSolution
             return brick;
         }
 
+        // the brick-dropping algorithm requires the bricks to be sorted by z position
         public int CompareTo(Brick? other)
         {
             if (other is null) { return 1; }
@@ -138,7 +139,7 @@ class AoC2023_22 : AoCSolution
         // then remove one essential brick and drop them again
         // count how many fall and add to answer
         // reset and repeat for every essential brick
-        
+
         // part 1 takes <10ms on my machine
         // part 2 takes <1000ms i was expecting worse!
         // but i think parsing the input string is the slow bit
